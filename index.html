@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galeri Kita</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* === RESET & BODY === */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #0d0b1a, #1d103a, #160f29);
+      color: #f0e6ff;
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* === POLA LOVE DI BACKGROUND (LEMBUT) === */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle, transparent 70%, #ff69b4 70%),
+        radial-gradient(circle, transparent 70%, #ff69b4 70%);
+      background-size: 120px 120px, 120px 120px;
+      background-position: 0 0, 60px 60px;
+      opacity: 0.04;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* === EFEK HUJAN HATI === */
+    .heart {
+      position: fixed;
+      top: 100vh;
+      font-size: 24px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 999;
+      animation: floatUp 5s linear forwards;
+      text-shadow: 0 0 8px #ff69b4, 0 0 16px rgba(255, 105, 180, 0.7);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* === SECTIONS === */
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      background: linear-gradient(to right, #e0b3d5, #c98bb9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+    }
+
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.3rem;
+      color: #d7b7d0;
+      margin-bottom: 1.2rem;
+    }
+
+    .text {
+      max-width: 700px;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      color: #e2d7f0;
+    }
+
+    .btn-scroll {
+      background: transparent;
+      border: 2px solid #c98bb9;
+      color: #f3e9f7;
+      padding: 12px 34px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn-scroll:hover {
+      background: #c98bb9;
+      color: #160f29;
+    }
+
+    /* === GALLERY SLIDER === */
+    .gallery-container {
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 2rem;
+    }
+    .slider-row {
+      display: flex;
+      animation: slideRight 30s linear infinite;
+    }
+    .row-1 { animation-duration: 35s; }
+    .row-2 { animation-duration: 25s; animation-direction: reverse; }
+    .row-3 { animation-duration: 40s; }
+    @keyframes slideRight {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .photo-card {
+      width: 250px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px;
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 0 10px;
+      flex-shrink: 0;
+    }
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    /* === STORY === */
+    .story-container {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 40px;
+      border-radius: 30px;
+      max-width: 800px;
+      border-left: 4px solid #c98bb9;
+      text-align: left;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .story-text {
+      font-size: 1.15rem;
+      line-height: 2;
+      color: #e2d7f0;
+    }
+    .quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #e0b3d5;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    /* === MUSIC SECTION (DESIGN SESUAI SCREENSHOT) === */
+    #music {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    #music .subtitle {
+      color: #ff69b4;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    #music .text {
+      color: #d7b7d0;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    .song-grid {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .song-card {
+      width: 200px;
+      background: linear-gradient(135deg, #ff69b4, #c98bb9);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    .song-card:hover {
+      transform: translateY(-5px);
+    }
+    .song-heart {
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 15px;
+    }
+    .song-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 5px;
+    }
+    .song-artist {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 15px;
+    }
+    .play-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .play-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* === DISTANCE SECTION === */
+    #distance {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    #distance .distance-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: #ff69b4;
+      text-shadow: 0 0 10px rgba(255, 105, 180, 0.4);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    #distance .distance-subtitle {
+      font-size: 1rem;
+      color: #d7b7d0;
+      margin-bottom: 2rem;
+    }
+    .location-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .location-item {
+      text-align: center;
+      flex: 1;
+    }
+    .location-text {
+      font-size: 1.1rem;
+      color: #e2d7f0;
+      font-weight: 500;
+    }
+    .arrow-center {
+      font-size: 2rem;
+      color: #ff69b4;
+      font-weight: bold;
+    }
+    .quote-footer {
+      font-style: italic;
+      color: #b3a3c5;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+
+    /* === MUSIC PLAYER === */
+    #music-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 260px;
+      background: rgba(25, 10, 40, 0.95);
+      border: 1px solid rgba(184, 106, 161, 0.4);
+      border-radius: 18px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      z-index: 999;
+    }
+    #now-playing {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #e0b3d5;
+      margin-bottom: 12px;
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .controls button {
+      background: transparent;
+      border: 1px solid #c98bb9;
+      color: #f3e9f7;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    #progress {
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <section id="home">
+    <h1 class="title">Galeri Kita</h1>
+    <h2 class="subtitle">Untuk Dua Hati yang Tak Terpisahkan</h2>
+    <p class="text">Setiap detik bersamamu adalah sebuah lagu yang indah.</p>
+    <button class="btn-scroll" onclick="scrollToSection('#music')">Mulai Penjelajahan</button>
+  </section>
+
+  <!-- === MUSIC SECTION === -->
+  <section id="music">
+    <h2 class="subtitle">Lagu Favorit Kita 🎶</h2>
+    <div class="song-grid">
+      <div class="song-card" onclick="playSong('Perfect')">
+        <div class="song-heart">♥</div>
+        <div class="song-title">Perfect</div>
+        <div class="song-artist">Ed Sheeran</div>
+        <button class="play-btn">▶ Play Song</button>
+      </div>
+      <div class="song-card" onclick="playSong('A Thousand Years')">
+        <div class="song-heart">♥</div>
+        <div class="song-title">A Thousand Years</div>
+        <div class="song-artist">Christina Perri</div>
+        <button class="play-btn">▶ Play Song</button>
+      </div>
+      <div class="song-card" onclick="playSong('All of Me')">
+        <div class="song-heart">♥</div>
+        <div class="song-title">All of Me</div>
+        <div class="song-artist">John Legend</div>
+        <button class="play-btn">▶ Play Song</button>
+      </div>
+    </div>
+    <button class="btn-scroll" style="margin-top: 40px;" onclick="scrollToSection('#gallery')">Lihat Foto Kita</button>
+  </section>
+
+  <section id="gallery">
+    <h2 class="subtitle">Galeri Kenangan</h2>
+    <div class="gallery-container">
+      <!-- Baris 1 -->
+      <div class="slider-row row-1">
+        <div class="photo-card"><img src="foto1.jpeg"></div>
+        <div class="photo-card"><img src="foto2.jpeg"></div>
+        <div class="photo-card"><img src="foto3.jpeg"></div>
+        <div class="photo-card"><img src="foto4.jpeg"></div>
+        <div class="photo-card"><img src="foto5.jpeg"></div>
+        <div class="photo-card"><img src="foto6.jpeg"></div>
+        <!-- Duplikat -->
+        <div class="photo-card"><img src="foto1.jpeg"></div>
+        <div class="photo-card"><img src="foto2.jpeg"></div>
+        <div class="photo-card"><img src="foto3.jpeg"></div>
+        <div class="photo-card"><img src="foto4.jpeg"></div>
+        <div class="photo-card"><img src="foto5.jpeg"></div>
+        <div class="photo-card"><img src="foto6.jpeg"></div>
+      </div>
+
+      <!-- Baris 2 -->
+      <div class="slider-row row-2">
+        <div class="photo-card"><img src="foto1.jpeg"></div>
+        <div class="photo-card"><img src="foto4.jpeg"></div>
+        <div class="photo-card"><img src="foto2.jpeg"></div>
+        <div class="photo-card"><img src="foto5.jpeg"></div>
+        <div class="photo-card"><img src="foto3.jpeg"></div>
+        <div class="photo-card"><img src="foto6.jpeg"></div>
+        <!-- Duplikat -->
+        <div class="photo-card"><img src="foto1.jpeg"></div>
+        <div class="photo-card"><img src="foto4.jpeg"></div>
+        <div class="photo-card"><img src="foto2.jpeg"></div>
+        <div class="photo-card"><img src="foto5.jpeg"></div>
+        <div class="photo-card"><img src="foto3.jpeg"></div>
+        <div class="photo-card"><img src="foto6.jpeg"></div>
+      </div>
+
+      <!-- Baris 3 -->
+      <div class="slider-row row-3">
+        <div class="photo-card"><img src="foto4.jpeg"></div>
+        <div class="photo-card"><img src="foto1.jpeg"></div>
+        <div class="photo-card"><img src="foto5.jpeg"></div>
+        <div class="photo-card"><img src="foto2.jpeg"></div>
+        <div class="photo-card"><img src="foto6.jpeg"></div>
+        <div class="photo-card"><img src="foto3.jpeg"></div>
+        <!-- Duplikat -->
+       <div class="photo-card"><img src="foto4.jpeg"></div>
+        <div class="photo-card"><img src="foto1.jpeg"></div>
+        <div class="photo-card"><img src="foto5.jpeg"></div>
+        <div class="photo-card"><img src="foto2.jpeg"></div>
+        <div class="photo-card"><img src="foto6.jpeg"></div>
+        <div class="photo-card"><img src="foto3.jpeg"></div>
+      </div>
+
+    </div>
+    
+
+
+  <!-- === NEW SECTION: JARAK === -->
+  <section id="distance">
+    <h2 class="distance-title">Walau jauh, aku tetap merasa<br>kamu dekat</h2>
+    <p class="distance-subtitle">Jarak hanya angka, yang penting hati kita selalu terhubung</p>
+    
+    <div class="location-container">
+      <div class="location-item">
+        <div class="location-text">kamu di sana</div>
+      </div>
+      <div class="arrow-center">&harr;</div>
+      <div class="location-item">
+        <div class="location-text">aku di sini</div>
+      </div>
+    </div>
+
+    <p class="quote-footer">"Jarak berarti sangat sedikit ketika seseorang berarti begitu banyak"</p>
+
+    <button class="btn-scroll" style="margin-top: 40px;" onclick="scrollToSection('#end')">Akhirnya...</button>
+  </section>
+
+  <!-- === END SECTION === -->
+  <section id="end">
+    <h2 class="subtitle">Terima Kasih Telah Menjadi Bagian Terindah</h2>
+    <p class="text">Semoga kita bisa terus bersama, dalam suka dan duka, sekarang dan selamanya.</p>
+    <button class="btn-scroll" style="margin-top: 40px;" onclick="scrollToSection('#home')">Kembali ke Awal</button>
+  </section>
+
+  <!-- Music Player UI -->
+  <div id="music-player">
+    <div id="now-playing">Tidak ada lagu diputar</div>
+    <div class="controls">
+      <button onclick="togglePlay()">▶/⏸</button>
+      <button onclick="stopSong()">⏹</button>
+    </div>
+    <input type="range" id="progress" value="0" min="0" max="100" />
+  </div>
+
+  <audio id="audioPlayer"></audio>
+
+  <script>
+    // === EFEK HUJAN HATI ===
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "♥";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 12 + 18) + "px";
+      heart.style.opacity = "0.95";
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        if (heart.parentNode) heart.parentNode.removeChild(heart);
+      }, 5000);
+    }
+    setInterval(createHeart, 300);
+
+    // === AUDIO PLAYER ===
+    const audio = document.getElementById("audioPlayer");
+    const progress = document.getElementById("progress");
+    const nowPlaying = document.getElementById("now-playing");
+
+    const songs = {
+      "Perfect": "music/perfect.mp3",
+      "A Thousand Years": "music/a_thousand_years.mp3",
+      "All of Me": "music/all_of_me.mp3"
+    };
+
+    function playSong(title) {
+      if (audio.src !== songs[title]) audio.src = songs[title];
+      audio.play().catch(e => console.warn("Audio play blocked:", e));
+      nowPlaying.innerText = "🎵 " + title;
+    }
+
+    function togglePlay() {
+      if (audio.paused) {
+        audio.play().catch(e => console.warn("Play failed:", e));
+      } else {
+        audio.pause();
+      }
+    }
+
+    function stopSong() {
+      audio.pause();
+      audio.currentTime = 0;
+      nowPlaying.innerText = "Tidak ada lagu diputar";
+    }
+
+    audio.addEventListener("timeupdate", () => {
+      progress.value = (audio.currentTime / (audio.duration || 1)) * 100;
+    });
+
+    function scrollToSection(id) {
+      document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
